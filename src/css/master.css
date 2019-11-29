@@ -10,3 +10,9 @@ html {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+@font-face {
+  font-family: "Eurostile";
+  src: url("../assets/fonts/EurostileBQ-BoldExtended.otf") format("truetype");
+  font-weight: 600;
+}
