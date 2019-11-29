@@ -1,0 +1,12 @@
+body,
+html {
+  /* background: #455a64; */
+  margin: 0px;
+}
+
+.position-absolute {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
