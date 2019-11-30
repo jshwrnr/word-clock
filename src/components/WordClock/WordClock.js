@@ -6,7 +6,6 @@ const glowShadow = "0px 0px 10px rgba(173, 216, 230, 0.7), 0px 0px 4px rgba(0, 0
 const styles = {
   clock: {
     background: "#000",
-    color: colors.dim,
     borderRadius: "10px",
     width: "500px",
     height: "500px",
@@ -14,7 +13,6 @@ const styles = {
   },
   clockText: {
     color: colors.dim,
-    margin: "0px",
     fontFamily: "Eurostile",
     fontSize: "35px",
     lineHeight: "55px",
@@ -116,7 +114,11 @@ class WordClock extends Component {
     let date = new Date();
     const hours = this.getHours12(date.getHours());
     const minutes = date.getMinutes();
-    this.setState({ activeWords: this.getActiveWordsArr(hours, minutes), remainingMinutes: minutes % 5 });
+
+    this.setState({
+      activeWords: this.getActiveWordsArr(hours, minutes),
+      remainingMinutes: minutes % 5,
+    });
   };
 
   componentDidMount() {
@@ -142,9 +144,10 @@ class WordClock extends Component {
             return text ? (
               <span
                 style={{
-                  margin: text === "FOUR" ? "0px 20px" : "",
-                  color: activeWords[i] ? colors.lit : "",
-                  textShadow: activeWords[i] ? glowShadow : "",
+                  wordSpacing: text === "IT IS" ? "24px" : null,
+                  margin: text === "FOUR" ? "0px 20px" : null,
+                  color: activeWords[i] ? colors.lit : null,
+                  textShadow: activeWords[i] ? glowShadow : null,
                 }}
                 key={i}
               >
