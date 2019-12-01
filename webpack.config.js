@@ -4,8 +4,8 @@ const HmtlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
   entry: "./src/index.js",
   output: {
-    path: path.join(__dirname, "/dist"),
-    filename: "index_bundle.js"
+    path: path.join(__dirname, "/build"),
+    filename: "index_bundle.js",
   },
   module: {
     rules: [
@@ -13,22 +13,22 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
-        }
+          loader: "babel-loader",
+        },
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"]
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.otf$/,
-        loader: "file-loader"
-      }
-    ]
+        loader: "file-loader",
+      },
+    ],
   },
   plugins: [
     new HmtlWebpackPlugin({
-      template: "./src/index.html"
-    })
-  ]
+      template: "./src/index.html",
+    }),
+  ],
 };
