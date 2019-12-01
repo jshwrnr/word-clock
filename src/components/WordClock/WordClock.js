@@ -1,4 +1,29 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
+
+let clockText = [
+  "IT IS",
+  "HALF",
+  "TEN",
+  "QUARTER",
+  "TWENTY",
+  "FIVE",
+  "MINUTES",
+  "TO",
+  "PAST",
+  "TWO",
+  "THREE",
+  "ONE",
+  "FOUR",
+  "FIVE",
+  "SIX",
+  "SEVEN",
+  "EIGHT",
+  "NINE",
+  "TEN",
+  "ELEVEN",
+  "TWELVE",
+  "O'CLOCK",
+];
 
 const colors = { lit: "#fff", dim: "#707790" };
 const glowShadow = "0px 0px 10px rgba(173, 216, 230, 0.7), 0px 0px 4px rgba(0, 0, 255, 0.5)";
@@ -40,31 +65,6 @@ const styles = {
   },
 };
 
-let clockText = [
-  "IT IS",
-  "HALF",
-  "TEN",
-  "QUARTER",
-  "TWENTY",
-  "FIVE",
-  "MINUTES",
-  "TO",
-  "PAST",
-  "TWO",
-  "THREE",
-  "ONE",
-  "FOUR",
-  "FIVE",
-  "SIX",
-  "SEVEN",
-  "EIGHT",
-  "NINE",
-  "TEN",
-  "ELEVEN",
-  "TWELVE",
-  "O'CLOCK",
-];
-
 class WordClock extends Component {
   state = {
     activeWords: [],
@@ -75,7 +75,7 @@ class WordClock extends Component {
     return (hour + 24) % 12 || 12;
   };
 
-  getActiveWordsArr = (hours, minutes) => {
+  getActiveWords = (hours, minutes) => {
     let unit = Math.floor(minutes / 5);
 
     let activeWords = [true]; // IT IS
@@ -83,19 +83,23 @@ class WordClock extends Component {
     if (unit === 0) {
       activeWords[21] = true; // O'CLOCK
     } else {
-      if (unit === 6) activeWords[1] = true; // HALF
-      if (unit === 2 || unit === 10) activeWords[2] = true; // TEN
-      if (unit === 3 || unit === 9) activeWords[3] = true; // QUARTER
-      if ([4, 5, 7, 8].indexOf(unit) != -1) activeWords[4] = true; // TWENTY
+      if (unit === 6) {
+        activeWords[1] = true; // HALF
+      } else if (unit === 2 || unit === 10) {
+        activeWords[2] = true; // TEN
+      } else if (unit === 3 || unit === 9) {
+        activeWords[3] = true; // QUARTER
+      } else if ([4, 5, 7, 8].indexOf(unit) != -1) {
+        activeWords[4] = true; // TWENTY
+      }
+
       if ([1, 5, 7, 11].indexOf(unit) != -1) activeWords[5] = true; // FIVE
       if ([1, 2, 4, 5, 7, 8, 10, 11].indexOf(unit) != -1) activeWords[6] = true; // MINUTES
       if (unit > 6) activeWords[7] = true; // TO
       if (unit > 0 && unit < 7) activeWords[8] = true; // PAST
     }
 
-    if (minutes > 34) {
-      hours = this.getHours12(hours + 1);
-    }
+    if (minutes > 34) hours = this.getHours12(hours + 1);
 
     if (hours === 1) {
       activeWords[11] = true; // ONE
@@ -116,7 +120,7 @@ class WordClock extends Component {
     const minutes = date.getMinutes();
 
     this.setState({
-      activeWords: this.getActiveWordsArr(hours, minutes),
+      activeWords: this.getActiveWords(hours, minutes),
       remainingMinutes: minutes % 5,
     });
   };
@@ -140,21 +144,19 @@ class WordClock extends Component {
     return (
       <div style={styles.clock}>
         <p style={styles.clockText}>
-          {clockText.map((text, i) => {
-            return text ? (
-              <span
-                style={{
-                  wordSpacing: text === "IT IS" ? "24px" : null,
-                  margin: text === "FOUR" ? "0px 20px" : null,
-                  color: activeWords[i] ? colors.lit : null,
-                  textShadow: activeWords[i] ? glowShadow : null,
-                }}
-                key={i}
-              >
-                {text}
-              </span>
-            ) : null;
-          })}
+          {clockText.map((text, i) => (
+            <span
+              style={{
+                wordSpacing: text === "IT IS" ? "24px" : null,
+                margin: text === "FOUR" ? "0px 20px" : null,
+                color: activeWords[i] ? colors.lit : null,
+                textShadow: activeWords[i] ? glowShadow : null,
+              }}
+              key={i}
+            >
+              {text}
+            </span>
+          ))}
         </p>
         <div style={styles.remainingSquares}>
           {Array.from({ length: 4 }).map((item, i) => (
